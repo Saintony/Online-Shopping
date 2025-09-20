@@ -1,0 +1,74 @@
+{
+  "product_items": [
+    {
+      "sku": 1,
+      "brand": "CA",
+      "name": "T-Bone Slice 300g.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1551028150-64b9f398f678?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 250.0
+    },
+    {
+      "sku": 2,
+      "brand": "CA",
+      "name": "Eggs No.1 Pack 30",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 149.0
+    },
+    {
+      "sku": 3,
+      "brand": "CA",
+      "name": "Frozen Atlantic Salmon 125g.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 98.0
+    },
+    {
+      "sku": 4,
+      "brand": "CA",
+      "name": "White Prawn 30pcs per kg.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1504309250229-4f08315f3b5c?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 299.0
+    },
+    {
+      "sku": 5,
+      "brand": "CB",
+      "name": "Broccoli 1kg.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 96.0
+    },
+    {
+      "sku": 6,
+      "brand": "CB",
+      "name": "Caabbage 3kg.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1611105637889-3afd7295bdbf?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 129.0
+    },
+    {
+      "sku": 7,
+      "brand": "CC",
+      "name": "Itambé natural milk 1L.",
+      "pack_size": "1",
+      "image_url": [
+        "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=200&h=200&q=80"
+      ],
+      "price": 79.0
+    }
+  ]
+}
