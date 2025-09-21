@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-4 space-y-6">
+  <div class="container p-4 mx-auto space-y-6">
     <Head>
       <Title>YIM-Platform | Recommend</Title>
       <Meta
@@ -8,16 +8,16 @@
       />
     </Head>
     <!-- Promotion bar  -->
-    <div class="rounded bg-amber-100 border border-amber-300 px-4 py-2 text-sm">
+    <div class="px-4 py-2 text-sm border rounded bg-amber-100 border-amber-300">
       For free shipping on orders over ฿50,000 and more discount use code
       <b>YIMPLATFORM</b>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
       <!-- Filter -->
       <aside class="md:col-span-3">
-        <div class="bg-white rounded border p-4">
-          <h3 class="text-lg font-semibold mb-4">Filter</h3>
+        <div class="p-4 bg-white border rounded">
+          <h3 class="mb-4 text-lg font-semibold">Filter</h3>
           <FilterBar v-model="filter" :brands="brands" />
         </div>
       </aside>
@@ -25,14 +25,14 @@
       <!-- Products -->
       <main class="md:col-span-9">
         <div v-if="!loading">
-          <h2 class="text-2xl font-bold mb-4">Products</h2>
+          <h2 class="mb-4 text-2xl font-bold">Products</h2>
           <ProductGrid :items="filtered" @add="onAdd" />
         </div>
         <div v-else>
-          <div v-for="n in 6" :key="n" class="card p-3 animate-pulse">
-            <div class="h-40 bg-gray-200 rounded mb-3"></div>
-            <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div v-for="n in 6" :key="n" class="p-3 card animate-pulse">
+            <div class="h-40 mb-3 bg-gray-200 rounded"></div>
+            <div class="w-3/4 h-4 mb-2 bg-gray-200 rounded"></div>
+            <div class="w-1/2 h-4 bg-gray-200 rounded"></div>
           </div>
         </div>
       </main>

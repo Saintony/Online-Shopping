@@ -1,28 +1,36 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-brand-muted text-gray-900">
+  <div class="flex flex-col min-h-screen text-gray-900 bg-brand-muted">
     <!-- ==== Header ==== -->
-    <header class="bg-brand-primary text-white">
-      <div class="container mx-auto px-4 h-14 flex items-center gap-4">
-        <NuxtLink to="/" class="font-bold tracking-wide">YIM-Platform</NuxtLink>
+    <header class="text-white bg-brand-primary">
+      <div class="container flex items-center gap-4 px-4 mx-auto h-14">
+        <NuxtLink to="/" class="inline-flex items-center">
+          <div class="inline-flex items-center rounded-xl px-3 py-1.5">
+            <img
+              src="/images/yim-platform-logo.png"
+              alt="YIM-Platform"
+              class="object-contain w-auto h-24"
+            />
+          </div>
+        </NuxtLink>
         <div class="flex-1">
           <div class="relative hidden">
             <i
-              class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-white/80 text-sm"
+              class="absolute text-sm -translate-y-1/2 pi pi-search left-3 top-1/2 text-white/80"
             ></i>
             <input
               placeholder="ค้นหาสินค้า"
-              class="w-full pl-9 pr-4 py-2 rounded-full bg-white/20 placeholder-white/70 focus:bg-white text-white focus:text-gray-900 outline-none"
+              class="w-full py-2 pr-4 text-white rounded-full outline-none pl-9 bg-white/20 placeholder-white/70 focus:bg-white focus:text-gray-900"
             />
           </div>
         </div>
         <NuxtLink
           to="/cart"
-          class="btn-ghost bg-white/10 text-white hover:bg-white/20"
+          class="text-white btn-ghost bg-white/10 hover:bg-white/20"
         >
-          <i class="pi pi-shopping-cart mr-2"></i>Cart
+          <i class="mr-2 pi pi-shopping-cart"></i>Cart
           <span
             v-if="cart.itemsCount"
-            class="ml-2 badge bg-white text-brand-primary"
+            class="ml-2 bg-white badge text-brand-primary"
             >{{ cart.itemsCount }}</span
           >
         </NuxtLink>
