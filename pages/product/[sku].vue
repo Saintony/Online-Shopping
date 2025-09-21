@@ -1,5 +1,15 @@
 <template>
   <div class="container mx-auto px-4 py-6">
+    <!-- SEO -->
+    <Head>
+      <Title>{{
+        product?.name ? `${product.name} | Y-Shop` : "Product | Y-Shop"
+      }}</Title>
+      <Meta
+        name="description"
+        :content="product?.name || 'รายละเอียดสินค้าใน Y-Shop'"
+      />
+    </Head>
     <!-- Back -->
     <button
       class="mb-4 flex items-center gap-2 text-sm hover:underline"
@@ -50,9 +60,8 @@
         </div>
       </section>
 
-      <!-- RIGHT: Info -->
+      <!-- Info -->
       <section class="md:col-span-7">
-        <!-- ชื่อ + ราคา + ปุ่ม -->
         <div class="flex items-start gap-4">
           <div class="flex-1">
             <h1 class="text-3xl font-extrabold leading-tight">
@@ -67,7 +76,7 @@
           </div>
         </div>
 
-        <!-- รายละเอียด -->
+        <!-- Detail -->
         <div class="flex items-start gap-4">
           <div class="flex-1">
             <h2 class="mt-8 text-lg font-semibold">Product Detail</h2>
@@ -105,7 +114,6 @@ import { defineComponent } from "vue";
 import { mapStores } from "pinia";
 import { useProductStore } from "../../stores/product";
 import { useCartStore } from "../../stores/cart";
-import { useToast } from "primevue/usetoast";
 import type { ProductItem } from "../../types/product";
 
 export default defineComponent({
@@ -143,12 +151,12 @@ when an unknown printer took a galley of type and scrambled it to make a type sp
         price: p.price,
         image: p.image_url?.[0],
       });
-      const toast = useToast();
-      toast.add({
+      this.$toast?.add({
+        group: "app",
         severity: "success",
-        summary: "เพิ่มลงตะกร้าแล้ว",
+        summary: "Added to cart",
         detail: p.name,
-        life: 1200,
+        life: 1500,
       });
     },
   },

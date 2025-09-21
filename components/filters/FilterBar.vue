@@ -6,7 +6,7 @@
       <input
         v-model="state.q"
         type="text"
-        placeholder="ค้นหาชื่อสินค้า…"
+        placeholder="Search by product name..."
         class="w-full px-3 py-2 border rounded"
       />
     </div>
@@ -19,7 +19,7 @@
           v-model="state.brand"
           class="w-full px-3 py-2 border rounded appearance-none"
         >
-          <option :value="null">ทั้งหมด</option>
+          <option :value="null">All</option>
           <option v-for="b in brands" :key="b" :value="b">{{ b }}</option>
         </select>
         <i

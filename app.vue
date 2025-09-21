@@ -38,7 +38,7 @@
     <SiteFooter />
 
     <!-- ==== Global toast ==== -->
-    <Toast />
+    <Toast group="app" position="top-right" />
   </div>
 </template>
 

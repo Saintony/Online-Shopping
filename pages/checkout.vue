@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 py-6 space-y-6">
     <Head>
-      <Title>Checkout | Y-Shop</Title>
+      <Title>Checkout | YIM-Shop</Title>
       <Meta name="robots" content="noindex" />
     </Head>
 
@@ -115,10 +115,11 @@
               </div>
             </div>
           </div>
-
-          <NuxtLink to="/" class="btn-primary w-full mt-6"
-            >Back to Home Page</NuxtLink
-          >
+          <div class="px-8">
+            <NuxtLink to="/" class="btn-primary w-full h-12 mt-6"
+              >Back to Home Page</NuxtLink
+            >
+          </div>
         </div>
       </aside>
     </div>

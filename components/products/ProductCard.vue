@@ -1,15 +1,17 @@
 <template>
   <div class="card relative overflow-hidden h-full flex flex-col">
-    <!-- แถบส่วนลด -->
+    <!-- Discount bar -->
     <div v-if="discountPercent > 0" class="absolute left-2 top-2">
       <span class="badge-danger">-{{ discountPercent }}%</span>
     </div>
 
-    <img
-      :src="product.image_url?.[0]"
-      :alt="product.name"
-      class="w-full aspect-[4/3] object-cover"
-    />
+    <NuxtLink :to="`/product/${product.sku}`">
+      <img
+        :src="product.image_url?.[0]"
+        :alt="product.name"
+        class="w-full aspect-[4/3] object-cover"
+      />
+    </NuxtLink>
 
     <div class="p-3 flex-1 flex flex-col">
       <p class="text-[11px] text-gray-400">SKU: {{ product.sku }}</p>
@@ -17,20 +19,18 @@
         {{ product.name }}
       </h3>
 
-      <div class="mt-1">
-        <span class="price-now">฿ {{ product.price.toFixed(2) }}</span>
-        <span v-if="product.original_price" class="price-old">
-          ฿ {{ product.original_price!.toFixed(2) }}
-        </span>
-      </div>
-
-      <div class="mt-3 flex justify-between items-center">
-        <NuxtLink :to="`/product/${product.sku}`" class="btn-ghost">
-          <i class="pi pi-info-circle mr-1"></i>รายละเอียด
-        </NuxtLink>
-        <button class="btn-primary" @click="$emit('add', product)">
-          + Add to cart
-        </button>
+      <div class="flex items-start gap-2">
+        <div class="mt-1 flex-1">
+          <span class="price-now">฿ {{ product.price.toFixed(2) }}</span>
+          <span v-if="product.original_price" class="price-old">
+            ฿ {{ product.original_price!.toFixed(2) }}
+          </span>
+        </div>
+        <div class="">
+          <button class="btn-primary" @click="$emit('add', product)">
+            + Add to cart
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import type { ProductItem } from "../../types/product"; // ปรับ path ให้ตรงกับโปรเจกต์คุณ
+import type { ProductItem } from "../../types/product";
 
 export default defineComponent({
   name: "ProductCard",

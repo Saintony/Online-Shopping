@@ -74,4 +74,25 @@
   .p-toast .p-toast-message.brand {
     @apply bg-brand-primary/10 text-brand-primary ring-1 ring-brand-primary/30 border-transparent;
   }
+
+  .p-toast {
+    z-index: 1100;
+  }
+
+  /* กันบีบความกว้างแปลก ๆ */
+  .p-toast {
+    width: auto;
+    max-width: 380px;
+  }
+  .p-toast-message {
+    overflow: visible;
+  }
+
+  /* ระยะขอบบนมือถือ */
+  @media (max-width: 640px) {
+    .p-toast-top-right {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+  }
 }
