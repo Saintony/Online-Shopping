@@ -8,7 +8,7 @@
     <h1 class="text-2xl font-bold">Checkout</h1>
 
     <div v-if="!items.length" class="text-center text-gray-500 py-16">
-      ยังไม่มีสินค้าในตะกร้า
+      No Item In Cart
       <div class="mt-3">
         <NuxtLink to="/" class="btn-ghost">เลือกซื้อสินค้า</NuxtLink>
       </div>
@@ -39,26 +39,6 @@
               <div class="text-sm">฿ {{ fmt(it.qty * it.price) }}</div>
             </div>
           </div>
-
-          <!-- mini total block -->
-          <div class="mt-4 border-t pt-3 space-y-1 text-sm">
-            <div class="flex justify-between">
-              <span>Subtotal</span>
-              <span>฿ {{ fmt(subtotal) }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Discount</span>
-              <span class="text-brand-primary">-฿ {{ fmt(discount) }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Delivery fee</span>
-              <span>฿ {{ fmt(shipping) }}</span>
-            </div>
-            <div class="flex justify-between font-semibold border-t pt-2">
-              <span>Total</span>
-              <span>฿ {{ fmt(total) }}</span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -78,7 +58,7 @@
             </div>
             <div class="flex justify-between">
               <span>Delivery Fee</span>
-              <span>฿ {{ fmt(shipping) }}</span>
+              <span>฿ {{ fmt(deliveryFee) }}</span>
             </div>
             <div class="flex justify-between font-semibold border-t pt-2">
               <span>Total</span>
@@ -103,14 +83,14 @@
               class="w-56 h-56 rounded border"
             />
             <div v-else class="text-xs text-gray-500">
-              สร้าง QR ไม่สำเร็จ
+              Create QR Fail
               <div>
                 <a
                   :href="paymentUrl"
                   target="_blank"
                   class="underline text-blue-600"
                 >
-                  เปิดลิงก์ชำระเงิน
+                  Open Link Payment
                 </a>
               </div>
             </div>
@@ -167,7 +147,7 @@ export default defineComponent({
       const applied = (this.appliedPromo || "").trim().toUpperCase();
       return applied === cfgCode ? cfgAmount : 0;
     },
-    shipping(): number {
+    deliveryFee(): number {
       const feeCfg = (appConfig as any)?.config?.delivery_fee ?? {};
       const base = Number(feeCfg.delivery_fee_amount || 0);
       const freeMin = Number(feeCfg.minimum_cart_amount || 0);
@@ -175,7 +155,7 @@ export default defineComponent({
       return afterDiscount >= freeMin ? 0 : base;
     },
     total(): number {
-      return Math.max(0, this.subtotal - this.discount + this.shipping);
+      return Math.max(0, this.subtotal - this.discount + this.deliveryFee);
     },
     paymentUrl(): string {
       return `https://payment-api.yimplatform.com/orders/${this.orderId}/checkout?price=${this.total.toFixed(2)}`;

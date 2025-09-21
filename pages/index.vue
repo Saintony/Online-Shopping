@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4 space-y-6">
     <Head>
-      <Title>YIM-Platform | สินค้าแนะนำ</Title>
+      <Title>YIM-Platform | Recommend</Title>
       <Meta
         name="description"
         content="ช้อปสินค้าคุณภาพ ราคาดี ส่งไว — YIM-Platform"
@@ -24,8 +24,17 @@
 
       <!-- Products -->
       <main class="md:col-span-9">
-        <h2 class="text-2xl font-bold mb-4">Products</h2>
-        <ProductGrid :items="filtered" @add="onAdd" />
+        <div v-if="!loading">
+          <h2 class="text-2xl font-bold mb-4">Products</h2>
+          <ProductGrid :items="filtered" @add="onAdd" />
+        </div>
+        <div v-else>
+          <div v-for="n in 6" :key="n" class="card p-3 animate-pulse">
+            <div class="h-40 bg-gray-200 rounded mb-3"></div>
+            <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
@@ -53,27 +62,26 @@ export default defineComponent({
 
   data() {
     return {
-      filter: { q: "", brand: null, min: 0, max: 999999 } as FilterState,
+      filter: { q: "", brand: null, min: 0, max: 10000 } as FilterState,
+      products: [] as ProductItem[], // <- เก็บสินค้าที่ดึงมาไว้ใน state หน้า
+      loading: false as boolean,
+      loadError: "" as string | null,
     };
   },
 
   computed: {
-    // ผูก store เข้ากับ this.productStore / this.cartStore
     ...mapStores(useProductStore, useCartStore),
 
-    // รายชื่อแบรนด์
+    // ใช้ this.products แทนการอ่านจาก store
     brands(): string[] {
       const s = new Set<string>();
-      const items = (this.productStore?.items ?? []) as ProductItem[];
-      for (const p of items) s.add(p.brand);
+      for (const p of this.products) s.add(p.brand);
       return Array.from(s).sort();
     },
 
-    // สินค้าที่ผ่านการกรอง
     filtered(): ProductItem[] {
-      const items = (this.productStore?.items ?? []) as ProductItem[];
       const q = this.filter.q.toLowerCase().trim();
-      return items.filter((p) => {
+      return this.products.filter((p) => {
         const nameOk = p.name.toLowerCase().includes(q);
         const brandOk = !this.filter.brand || p.brand === this.filter.brand;
         const minOk =
@@ -85,7 +93,35 @@ export default defineComponent({
     },
   },
 
+  async mounted() {
+    this.loading = false;
+    await this.getProducts();
+  },
+
   methods: {
+    async getProducts() {
+      try {
+        this.loading = true;
+        this.loadError = "";
+
+        // ถ้าใน store มี action ชื่อ fetchAll ก็เรียกใช้ (กันโหลดซ้ำได้ใน action)
+        if (typeof this.productStore.fetchAll === "function") {
+          await this.productStore.fetchAll();
+          this.products = (this.productStore.items ?? []) as ProductItem[];
+        } else {
+          // fallback: ถ้ายังไม่มี action ก็อ่านจาก state ตรง ๆ ไปก่อน
+          this.products = (this.productStore?.items ?? []) as ProductItem[];
+        }
+      } catch (err) {
+        console.error(err);
+        this.loadError = "โหลดรายการสินค้าล้มเหลว";
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+      }
+    },
+
     onAdd(p: ProductItem) {
       this.cartStore.add({
         sku: p.sku,

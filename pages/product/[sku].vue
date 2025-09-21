@@ -11,12 +11,15 @@
       />
     </Head>
     <!-- Back -->
-    <button
-      class="mb-4 flex items-center gap-2 text-sm hover:underline"
-      @click="$router.back()"
-    >
-      <i class="pi pi-angle-left"></i> Back
-    </button>
+    <div class="mb-4">
+      <i class="pi pi-angle-left"></i>
+      <span
+        class="hover:underline"
+        style="cursor: pointer"
+        @click="$router.back()"
+        >Back</span
+      >
+    </div>
 
     <!-- Layout -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-10">

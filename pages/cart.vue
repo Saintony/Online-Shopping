@@ -7,19 +7,21 @@
     </Head>
 
     <!-- Back + Title -->
-    <button
-      class="flex items-center gap-2 text-sm hover:underline"
+    <i class="pi pi-angle-left"></i>
+    <span
+      class="hover:underline"
+      style="cursor: pointer"
       @click="$router.back()"
+      >Back</span
     >
-      <i class="pi pi-angle-left"></i> Back
-    </button>
+
     <h1 class="text-2xl font-bold">Cart</h1>
 
     <!-- Empty state -->
     <div v-if="!items.length" class="text-center text-gray-500 py-20">
-      ยังไม่มีสินค้าในตะกร้า
+      Cart is empty
       <div class="mt-3">
-        <NuxtLink to="/" class="btn-ghost">เลือกซื้อสินค้า</NuxtLink>
+        <NuxtLink to="/" class="btn-primary">Select Product</NuxtLink>
       </div>
     </div>
 
@@ -41,26 +43,38 @@
               <div class="flex-1 min-w-0">
                 <div class="text-xs text-gray-500">SKU: {{ it.sku }}</div>
                 <div class="font-semibold truncate">{{ it.name }}</div>
-                <div class="mt-1 price-now">฿ {{ fmt(it.price) }}</div>
-                <div class="mt-3 flex items-center gap-2">
-                  <button class="btn-ghost" @click="dec(it)">−</button>
-                  <input
-                    type="number"
-                    min="1"
-                    max="999"
-                    v-model.number="it.qty"
-                    @change="qtyChanged(it)"
-                    class="w-16 text-center border rounded px-2 py-1"
-                  />
-                  <button class="btn-ghost" @click="inc(it)">＋</button>
-                </div>
-              </div>
-              <div class="ml-auto flex items-center gap-3">
-                <div class="text-sm text-gray-500">รวม:</div>
-                <div class="font-semibold">฿ {{ fmt(it.qty * it.price) }}</div>
-                <button class="btn-ghost text-red-600" @click="remove(it)">
-                  ลบ
+                <div class="price-now mt-2">฿ {{ fmt(it.price) }}</div>
+                <button class="btn-ghost text-red-600 mt-2" @click="remove(it)">
+                  Delete
                 </button>
+              </div>
+              <div class="ml-auto items-center gap-3 mt-1">
+                <button class="btn-ghost" @click="dec(it)">−</button>
+                <input
+                  type="number"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  min="1"
+                  max="999"
+                  step="1"
+                  :value="it.qty"
+                  @input="onQtyInput(it, $event)"
+                  @blur="onQtyBlur(it, $event)"
+                  @keydown="blockInvalid($event)"
+                  @wheel.prevent
+                  class="w-16 text-center border rounded px-2 py-1"
+                />
+
+                <button class="btn-ghost" @click="inc(it)">＋</button>
+                <!-- <div class="text-sm text-gray-500">Total:</div>
+                <div class="font-semibold">฿ {{ fmt(it.qty * it.price) }}</div> -->
+
+                <div class="flex items-baseline gap-2 mt-2">
+                  <span class="text-sm text-gray-500">Total:</span>
+                  <span class="font-semibold text-gray-900"
+                    >฿ {{ fmt(it.qty * it.price) }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -126,7 +140,7 @@
           <h2 class="text-lg font-semibold">Summary</h2>
 
           <div class="flex-1 space-y-4">
-            <div
+            <!-- <div
               class="text-xs rounded border p-2"
               :class="
                 subtotal < freeShippingThreshold
@@ -139,8 +153,8 @@
                 {{ fmt(freeShippingThreshold - subtotal) }} เพื่อรับสิทธิ์
                 “ส่งฟรี”
               </template>
-              <template v-else>ยอดถึงเกณฑ์ส่งฟรีแล้ว 🎉</template>
-            </div>
+              <template v-else>ยอดถึงเกณฑ์ส่งฟรีแล้ว </template>
+            </div> -->
 
             <div class="space-y-2">
               <label class="text-sm font-medium">Promotion Code</label>
@@ -167,7 +181,9 @@
 
           <div class="flex justify-between text-sm">
             <span>Delivery Fee</span>
-            <span>{{ shipping === 0 ? "฿0.00" : `฿ ${fmt(shipping)}` }}</span>
+            <span>{{
+              deliveryFee === 0 ? "฿0.00" : `฿ ${fmt(deliveryFee)}`
+            }}</span>
           </div>
 
           <div
@@ -222,13 +238,13 @@ export default defineComponent({
       const applied = (this.appliedPromo || "").trim().toUpperCase();
       return applied === cfgCode ? cfgAmount : 0;
     },
-    shipping(): number {
+    deliveryFee(): number {
       return this.subtotal - this.discount >= this.freeShippingThreshold
         ? 0
-        : 0;
+        : 100;
     },
     total(): number {
-      return Math.max(0, this.subtotal - this.discount + this.shipping);
+      return Math.max(0, this.subtotal - this.discount + this.deliveryFee);
     },
     recommended(): ProductItem[] {
       const inCart = new Set(this.items.map((i: any) => i.sku));
@@ -244,7 +260,7 @@ export default defineComponent({
       });
     },
     inc(it: any) {
-      this.cartStore.updateQty(it.sku, it.qty + 1);
+      this.cartStore.updateQty(it.sku, Math.min(999, it.qty + 1));
     },
     dec(it: any) {
       this.cartStore.updateQty(it.sku, Math.max(1, it.qty - 1));
@@ -259,13 +275,49 @@ export default defineComponent({
       this.cartStore.remove(it.sku);
     },
     applyPromo() {
-      this.appliedPromo = (this.promo || "").trim();
+      try {
+        this.appliedPromo = (this.promo || "").trim();
+      } catch (error) {
+        console.log(error);
+      }
     },
     checkout() {
       this.$router.push({
         path: "/checkout",
         query: { code: this.appliedPromo },
       });
+    },
+    blockInvalid(e: KeyboardEvent) {
+      const bad = ["e", "E", "+", "-", "."];
+      if (bad.includes(e.key)) e.preventDefault();
+    },
+    onQtyInput(it: any, evt: Event) {
+      const el = evt.target as HTMLInputElement;
+      // เก็บเฉพาะตัวเลข (กัน paste แปลก ๆ)
+      let raw = el.value.replace(/[^\d]/g, "");
+      if (raw === "") raw = "1";
+
+      let n = parseInt(raw, 10);
+      if (Number.isNaN(n)) n = 1;
+
+      // clamp และเขียนค่ากลับทันที
+      if (n > 999) {
+        n = 999;
+        el.value = "999";
+      } else if (n < 1) {
+        n = 1;
+        el.value = "1";
+      }
+
+      this.cartStore.updateQty(it.sku, n);
+    },
+    onQtyBlur(it: any, evt: Event) {
+      const el = evt.target as HTMLInputElement;
+      let n = parseInt(el.value, 10);
+      if (Number.isNaN(n)) n = 1;
+      n = Math.max(1, Math.min(999, n));
+      el.value = String(n);
+      this.cartStore.updateQty(it.sku, n);
     },
     addRecommended(p: ProductItem) {
       this.cartStore.add({
