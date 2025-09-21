@@ -27,4 +27,51 @@
   .price-old {
     @apply line-through text-gray-400 text-xs ml-1;
   }
+  .p-toast {
+    @apply z-[9999];
+  }
+  .p-toast-top-right {
+    top: 4.5rem;
+    right: 1rem;
+  }
+  .p-toast-top-left {
+    top: 4.5rem;
+    left: 1rem;
+  }
+
+  .p-toast .p-toast-message {
+    @apply rounded-xl overflow-hidden shadow-card border;
+  }
+  .p-toast .p-toast-message-content {
+    @apply flex items-start gap-3 p-4;
+  }
+  .p-toast .p-toast-summary {
+    @apply font-semibold;
+  }
+  .p-toast .p-toast-detail {
+    @apply text-sm opacity-90;
+  }
+  .p-toast .p-toast-message-icon {
+    @apply text-xl mt-0.5;
+  }
+  .p-toast .p-toast-icon-close {
+    @apply text-current hover:bg-black/5 rounded-md transition;
+  }
+
+  .p-toast .p-toast-message-success {
+    @apply bg-green-50  text-green-900  border-green-200;
+  }
+  .p-toast .p-toast-message-info {
+    @apply bg-sky-50   text-sky-900   border-sky-200;
+  }
+  .p-toast .p-toast-message-warn {
+    @apply bg-amber-50 text-amber-900 border-amber-200;
+  }
+  .p-toast .p-toast-message-error {
+    @apply bg-red-50   text-red-900   border-red-200;
+  }
+
+  .p-toast .p-toast-message.brand {
+    @apply bg-brand-primary/10 text-brand-primary ring-1 ring-brand-primary/30 border-transparent;
+  }
 }
