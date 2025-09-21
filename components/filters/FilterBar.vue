@@ -2,7 +2,6 @@
   <div class="space-y-4">
     <!-- Keyword -->
     <div>
-      <label class="block text-sm font-medium mb-1">Keyword</label>
       <input
         v-model="state.q"
         type="text"

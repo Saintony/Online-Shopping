@@ -3,7 +3,7 @@
     <!-- ==== Header ==== -->
     <header class="bg-brand-primary text-white">
       <div class="container mx-auto px-4 h-14 flex items-center gap-4">
-        <NuxtLink to="/" class="font-bold tracking-wide">Y-Shop</NuxtLink>
+        <NuxtLink to="/" class="font-bold tracking-wide">YIM-Platform</NuxtLink>
         <div class="flex-1">
           <div class="relative hidden">
             <i

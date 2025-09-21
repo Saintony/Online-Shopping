@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 py-6 space-y-6">
     <Head>
-      <Title>Checkout | YIM-Shop</Title>
+      <Title>Checkout | YIM-Platform</Title>
       <Meta name="robots" content="noindex" />
     </Head>
 

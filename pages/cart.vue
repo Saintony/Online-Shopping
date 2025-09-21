@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 py-6 space-y-6">
     <!-- SEO -->
     <Head>
-      <Title>Cart | YIM-Shop</Title>
+      <Title>Cart | YIM-Platform</Title>
       <Meta name="robots" content="noindex" />
     </Head>
 

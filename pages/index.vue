@@ -1,10 +1,10 @@
 <template>
   <div class="container mx-auto p-4 space-y-6">
     <Head>
-      <Title>Y-Shop | สินค้าแนะนำ</Title>
+      <Title>YIM-Platform | สินค้าแนะนำ</Title>
       <Meta
         name="description"
-        content="ช้อปสินค้าคุณภาพ ราคาดี ส่งไว — Y-Shop"
+        content="ช้อปสินค้าคุณภาพ ราคาดี ส่งไว — YIM-Platform"
       />
     </Head>
     <!-- Promotion bar  -->
