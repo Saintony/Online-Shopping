@@ -2,6 +2,12 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Clone Reponsibi
+
+GitHub
+git clone https://github.com/Saintony/Online-Shopping.git yim-platform
+cd yim-platform
+
 ## Setup
 
 Make sure to install dependencies:
