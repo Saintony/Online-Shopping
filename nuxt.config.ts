@@ -4,10 +4,15 @@ export default defineNuxtConfig({
 
   tailwindcss: { cssPath: "@/assets/css/main.css", viewer: true },
 
+  // css: [
+  //   "primevue/resources/themes/aura-light-amber/theme.css",
+  //   "primeicons/primeicons.css",
+  //   "@/assets/css/main.css",
+  // ],
   css: [
-    "primevue/resources/themes/aura-light-amber/theme.css",
+    "primevue/resources/themes/saga-blue/theme.css",
+    "primevue/resources/primevue.min.css",
     "primeicons/primeicons.css",
-    "@/assets/css/main.css",
   ],
   postcss: { plugins: { tailwindcss: {}, autoprefixer: {} } },
   typescript: { strict: true },

@@ -1,7 +1,8 @@
 <template>
   <div class="container p-4 mx-auto space-y-6">
+    <!-- SEO -->
     <Head>
-      <Title>YIM-Platform | Recommend</Title>
+      <Title>YIM-Platform | สินค้าแนะนำ</Title>
       <Meta
         name="description"
         content="ช้อปสินค้าคุณภาพ ราคาดี ส่งไว — YIM-Platform"
@@ -114,7 +115,7 @@ export default defineComponent({
         }
       } catch (err) {
         console.error(err);
-        this.loadError = "โหลดรายการสินค้าล้มเหลว";
+        this.loadError = "Get Data Failed";
       } finally {
         setTimeout(() => {
           this.loading = false;

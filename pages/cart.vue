@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-6 space-y-6">
+  <div class="container px-4 py-6 mx-auto space-y-6">
     <!-- SEO -->
     <Head>
       <Title>Cart | YIM-Platform</Title>
@@ -18,7 +18,7 @@
     <h1 class="text-2xl font-bold">Cart</h1>
 
     <!-- Empty state -->
-    <div v-if="!items.length" class="text-center text-gray-500 py-20">
+    <div v-if="!items.length" class="py-20 text-center text-gray-500">
       Cart is empty
       <div class="mt-3">
         <NuxtLink to="/" class="btn-primary">Select Product</NuxtLink>
@@ -26,29 +26,29 @@
     </div>
 
     <!-- Content -->
-    <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div v-else class="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <!-- LEFT: list + recommend -->
       <section
         class="lg:col-span-8 lg:h-[calc(100vh-8rem)] flex flex-col gap-4"
       >
         <!-- Product Lists -->
         <div class="flex-1 pr-2 space-y-4 overflow-y-auto cart-scroll">
-          <div v-for="it in items" :key="it.sku" class="card p-4">
-            <div class="flex gap-4 items-start">
+          <div v-for="it in items" :key="it.sku" class="p-4 card">
+            <div class="flex items-start gap-4">
               <img
                 :src="it.image"
                 :alt="it.name"
-                class="w-24 h-24 object-cover rounded"
+                class="object-cover w-24 h-24 rounded"
               />
               <div class="flex-1 min-w-0">
                 <div class="text-xs text-gray-500">SKU: {{ it.sku }}</div>
                 <div class="font-semibold truncate">{{ it.name }}</div>
-                <div class="price-now mt-2">฿ {{ fmt(it.price) }}</div>
-                <button class="btn-ghost text-red-600 mt-2" @click="remove(it)">
+                <div class="mt-2 price-now">฿ {{ fmt(it.price) }}</div>
+                <button class="mt-2 text-red-600 btn-ghost" @click="remove(it)">
                   Delete
                 </button>
               </div>
-              <div class="ml-auto items-center gap-3 mt-1">
+              <div class="items-center gap-3 mt-1 ml-auto">
                 <button class="btn-ghost" @click="dec(it)">−</button>
                 <input
                   type="number"
@@ -62,7 +62,7 @@
                   @blur="onQtyBlur(it, $event)"
                   @keydown="blockInvalid($event)"
                   @wheel.prevent
-                  class="w-16 text-center border rounded px-2 py-1"
+                  class="w-16 px-2 py-1 text-center border rounded"
                 />
 
                 <button class="btn-ghost" @click="inc(it)">＋</button>
@@ -81,7 +81,7 @@
         </div>
 
         <!-- RECOMMEND: -->
-        <section class="card p-4 flex-none">
+        <section class="flex-none p-4 card">
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-base font-semibold">Recommend</h3>
             <div class="flex gap-2">
@@ -96,7 +96,7 @@
 
           <!-- Item recommend -->
           <div class="overflow-x-auto" ref="recWrap">
-            <div class="flex gap-4 min-w-max h-full">
+            <div class="flex h-full gap-4 min-w-max">
               <div
                 v-for="p in recommended"
                 :key="p.sku"
@@ -106,7 +106,7 @@
                   <!-- <img
                     :src="p.image_url?.[0]"
                     :alt="p.name"
-                    class="w-full h-full object-cover"
+                    class="object-cover w-full h-full"
                   /> -->
 
                   <NuxtLink :to="`/product/${p.sku}`">
@@ -121,7 +121,7 @@
                 <div class="text-sm font-medium line-clamp-2">{{ p.name }}</div>
                 <div class="mt-1 price-now">฿ {{ fmt(p.price) }}</div>
                 <button
-                  class="btn-primary mt-2 w-full"
+                  class="w-full mt-2 btn-primary"
                   @click="addRecommended(p)"
                 >
                   + Add to cart
@@ -141,7 +141,7 @@
 
           <div class="flex-1 space-y-4">
             <!-- <div
-              class="text-xs rounded border p-2"
+              class="p-2 text-xs border rounded"
               :class="
                 subtotal < freeShippingThreshold
                   ? 'bg-amber-50 border-amber-200'
@@ -162,7 +162,7 @@
                 <input
                   v-model="promo"
                   placeholder="Promotion"
-                  class="flex-1 border rounded px-3 py-2 text-sm w-full"
+                  class="flex-1 w-full px-3 py-2 text-sm border rounded"
                 />
                 <button class="btn-primary" @click="applyPromo">Apply</button>
               </div>
@@ -187,13 +187,13 @@
           </div>
 
           <div
-            class="border-t pt-2 flex justify-between items-center font-semibold"
+            class="flex items-center justify-between pt-2 font-semibold border-t"
           >
             <span>Total</span>
             <span>฿ {{ fmt(total) }}</span>
           </div>
 
-          <button class="btn-primary w-full mt-auto" @click="checkout">
+          <button class="w-full mt-auto btn-primary" @click="checkout">
             Checkout
           </button>
         </div>
@@ -226,7 +226,7 @@ export default defineComponent({
     },
     subtotal(): number {
       return this.items.reduce(
-        (s: number, it: any) => s + it.price * it.qty,
+        (sum: number, item: any) => sum + item.price * item.qty,
         0
       );
     },
@@ -253,26 +253,26 @@ export default defineComponent({
     },
   },
   methods: {
-    fmt(n: number) {
-      return n.toLocaleString("th-TH", {
+    fmt(val: number) {
+      return val.toLocaleString("th-TH", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
     },
-    inc(it: any) {
-      this.cartStore.updateQty(it.sku, Math.min(999, it.qty + 1));
+    inc(val: any) {
+      this.cartStore.updateQty(val.sku, Math.min(999, val.qty + 1));
     },
-    dec(it: any) {
-      this.cartStore.updateQty(it.sku, Math.max(1, it.qty - 1));
+    dec(val: any) {
+      this.cartStore.updateQty(val.sku, Math.max(1, val.qty - 1));
     },
-    qtyChanged(it: any) {
+    qtyChanged(val: any) {
       this.cartStore.updateQty(
-        it.sku,
-        Math.max(1, Math.min(999, Number(it.qty) || 1))
+        val.sku,
+        Math.max(1, Math.min(999, Number(val.qty) || 1))
       );
     },
-    remove(it: any) {
-      this.cartStore.remove(it.sku);
+    remove(val: any) {
+      this.cartStore.remove(val.sku);
     },
     applyPromo() {
       try {
@@ -291,7 +291,7 @@ export default defineComponent({
       const bad = ["e", "E", "+", "-", "."];
       if (bad.includes(e.key)) e.preventDefault();
     },
-    onQtyInput(it: any, evt: Event) {
+    onQtyInput(val: any, evt: Event) {
       const el = evt.target as HTMLInputElement;
       // เก็บเฉพาะตัวเลข (กัน paste แปลก ๆ)
       let raw = el.value.replace(/[^\d]/g, "");
@@ -309,15 +309,15 @@ export default defineComponent({
         el.value = "1";
       }
 
-      this.cartStore.updateQty(it.sku, n);
+      this.cartStore.updateQty(val.sku, n);
     },
-    onQtyBlur(it: any, evt: Event) {
+    onQtyBlur(val: any, evt: Event) {
       const el = evt.target as HTMLInputElement;
       let n = parseInt(el.value, 10);
       if (Number.isNaN(n)) n = 1;
       n = Math.max(1, Math.min(999, n));
       el.value = String(n);
-      this.cartStore.updateQty(it.sku, n);
+      this.cartStore.updateQty(val.sku, n);
     },
     addRecommended(p: ProductItem) {
       this.cartStore.add({

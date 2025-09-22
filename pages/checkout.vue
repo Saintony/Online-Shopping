@@ -1,5 +1,6 @@
 <template>
-  <div class="container mx-auto px-4 py-6 space-y-6">
+  <div class="container px-4 py-6 mx-auto space-y-6">
+    <!-- SEO -->
     <Head>
       <Title>Checkout | YIM-Platform</Title>
       <Meta name="robots" content="noindex" />
@@ -7,29 +8,29 @@
 
     <h1 class="text-2xl font-bold">Checkout</h1>
 
-    <div v-if="!items.length" class="text-center text-gray-500 py-16">
+    <div v-if="!items.length" class="py-16 text-center text-gray-500">
       No Item In Cart
       <div class="mt-3">
         <NuxtLink to="/" class="btn-ghost">เลือกซื้อสินค้า</NuxtLink>
       </div>
     </div>
 
-    <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div v-else class="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <!-- Order summary list -->
       <section class="lg:col-span-5">
         <div class="card p-4 lg:h-[calc(100vh-8rem)] flex flex-col">
           <div class="text-sm text-gray-600">Order ID {{ orderId }}</div>
 
-          <div class="mt-3 flex-1 overflow-y-auto cart-scroll pr-1 space-y-3">
+          <div class="flex-1 pr-1 mt-3 space-y-3 overflow-y-auto cart-scroll">
             <div
               v-for="it in items"
               :key="it.sku"
-              class="flex items-center gap-3 border rounded px-3 py-2"
+              class="flex items-center gap-3 px-3 py-2 border rounded"
             >
               <img
                 :src="it.image"
                 :alt="it.name"
-                class="w-12 h-12 rounded object-cover"
+                class="object-cover w-12 h-12 rounded"
               />
               <div class="flex-1 min-w-0">
                 <div class="text-xs text-gray-500">SKU: {{ it.sku }}</div>
@@ -60,14 +61,14 @@
               <span>Delivery Fee</span>
               <span>฿ {{ fmt(deliveryFee) }}</span>
             </div>
-            <div class="flex justify-between font-semibold border-t pt-2">
+            <div class="flex justify-between pt-2 font-semibold border-t">
               <span>Total</span>
               <span>฿ {{ fmt(total) }}</span>
             </div>
           </div>
 
           <!-- QR (placeholder) -->
-          <!-- <div class="mt-6 flex-1 flex items-center justify-center">
+          <!-- <div class="flex items-center justify-center flex-1 mt-6">
             <div
               class="w-56 h-56 border rounded grid place-items-center text-xs text-gray-500 bg-[repeating-linear-gradient(45deg,#eee,#eee_10px,#fff_10px,#fff_20px)]"
             >
@@ -75,12 +76,12 @@
             </div>
           </div> -->
 
-          <div class="mt-6 flex-1 flex items-center justify-center">
+          <div class="flex items-center justify-center flex-1 mt-6">
             <img
               v-if="qrSrc"
               :src="qrSrc"
               alt="Payment QR"
-              class="w-56 h-56 rounded border"
+              class="w-56 h-56 border rounded"
             />
             <div v-else class="text-xs text-gray-500">
               Create QR Fail
@@ -88,7 +89,7 @@
                 <a
                   :href="paymentUrl"
                   target="_blank"
-                  class="underline text-blue-600"
+                  class="text-blue-600 underline"
                 >
                   Open Link Payment
                 </a>
@@ -96,7 +97,7 @@
             </div>
           </div>
           <div class="px-8">
-            <NuxtLink to="/" class="btn-primary w-full h-12 mt-6"
+            <NuxtLink to="/" class="w-full h-12 mt-6 btn-primary"
               >Back to Home Page</NuxtLink
             >
           </div>
@@ -170,8 +171,8 @@ export default defineComponent({
     },
   },
   methods: {
-    fmt(n: number) {
-      return Number(n).toLocaleString("th-TH", {
+    fmt(val: number) {
+      return Number(val).toLocaleString("th-TH", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });

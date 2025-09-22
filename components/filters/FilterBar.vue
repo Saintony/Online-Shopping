@@ -10,9 +10,9 @@
       />
     </div>
 
-    <!-- Brand -->
-    <div>
-      <label class="block text-sm font-medium mb-1">Brand</label>
+    <!-- Brand (native select เดิม คงไว้ได้) -->
+    <!-- <div>
+      <label class="block mb-1 text-sm font-medium">Brand</label>
       <div class="relative">
         <select
           v-model="state.brand"
@@ -22,14 +22,27 @@
           <option v-for="b in brands" :key="b" :value="b">{{ b }}</option>
         </select>
         <i
-          class="pi pi-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-sm"
+          class="absolute text-sm -translate-y-1/2 pi pi-chevron-down right-3 top-1/2"
         ></i>
       </div>
+    </div> -->
+
+    <div>
+      <label class="block mb-1 text-sm font-medium">Brand</label>
+      <Dropdown
+        v-model="state.brand"
+        :options="brandsOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a Brand"
+        :showClear="true"
+        class="w-full md:w-65"
+      />
     </div>
 
     <!-- Price -->
     <div>
-      <label class="block text-sm font-medium mb-1">Price</label>
+      <label class="block mb-1 text-sm font-medium">Price</label>
       <div class="grid grid-cols-2 gap-2">
         <input
           v-model.number="state.min"
@@ -49,7 +62,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from "vue";
+import { defineComponent, reactive, watch, toRef, computed } from "vue";
+import Dropdown from "primevue/dropdown";
 
 type FilterState = {
   q: string;
@@ -60,6 +74,7 @@ type FilterState = {
 
 export default defineComponent({
   name: "FilterBar",
+  components: { Dropdown },
   props: {
     modelValue: { type: Object as () => FilterState, required: true },
     brands: { type: Array as () => string[], default: () => [] },
@@ -75,9 +90,38 @@ export default defineComponent({
     );
     watch(state, (v) => emit("update:modelValue", { ...v }), { deep: true });
 
-    return { state, brands: props.brands };
+    const brands = toRef(props, "brands");
+
+    const brandsOptions = computed(() => [
+      { label: "All", value: null },
+      ...brands.value.map((b) => ({ label: b, value: b })),
+    ]);
+
+    return { state, brands, brandsOptions };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+/* ขอบ + มุมโค้ง */
+:deep(.p-dropdown) {
+  border: 1px solid #d1d5db; /* = tailwind border-gray-300 */
+  border-radius: 0.375rem; /* = rounded-md */
+}
+
+/* ระยะห่างข้อความ */
+:deep(.p-dropdown .p-inputtext) {
+  padding: 0.5rem 0.75rem; /* = py-2 px-3 */
+}
+
+/* ปรับระยะ trigger ให้สวยขึ้นนิดหน่อย */
+:deep(.p-dropdown .p-dropdown-trigger) {
+  padding: 0 0.5rem;
+}
+
+/* โฟกัสให้มีสี (ปรับสีตามแบรนด์ได้) */
+:deep(.p-dropdown.p-focus) {
+  border-color: #6366f1; /* indigo-500 */
+  box-shadow: 0 0 0 1px #6366f1;
+}
+</style>
